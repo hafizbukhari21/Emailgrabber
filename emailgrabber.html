@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+     
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+    <title>Email Grabber </title>         
+    <meta name="description" content="Extract email addresses from any text with this free utility. Simply copy, paste and start extracting."> 
+    <meta name="keywords" content="email extractor, email extractor lite, free email extractor, extract email address, harvest email, email harvester, email extract tool, email extractor freeware, software"> 
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script language="javascript" type="text/javascript">
+<!-- Begin
+
+// Created by Benjamin Leow and Copyrighted by Surf7.net
+
+
+function copy() {
+textRange = document.extractor.output.createTextRange();
+textRange.execCommand("RemoveFormat");
+textRange.execCommand("Copy");
+}
+
+function paste() {
+textRange = document.extractor.input.createTextRange();
+textRange.execCommand("RemoveFormat");
+textRange.execCommand("Paste");
+}
+
+function help(){
+
+var imgwid = 450;
+var imghgt = 360;
+
+
+var winl = (screen.width - imgwid) / 2;
+var wint = (screen.height - imghgt) / 2;
+helpwindow = window.open('','help','width=' + imgwid + ',height=' + imghgt + ',resizable=0,scrollbars=0,top=' + wint + ',left=' + winl + ',toolbar=0,location=0,directories=0,status=0,menubar=0,copyhistory=0');
+helpwindow.document.write(content);
+helpwindow.document.close();
+}
+
+function checksep(value){
+if (value) document.extractor.sep.value = "other";
+}
+
+function numonly(value){
+if (isNaN(value)) {
+    window.alert("Please enter a number or else \nleave blank for no grouping.");
+    document.extractor.groupby.focus();
+}
+}
+
+function findEmail() {
+var email = "none";
+var a = 0;
+var ingroup = 0;
+var separator = document.extractor.sep.value;
+var string = document.extractor.string.value;
+var groupby = Math.round(document.extractor.groupby.value);
+var address_type = document.extractor.address_type.value;
+var input = document.extractor.input.value;
+
+if (document.extractor.lowcase.checked) {
+    var input = input.toLowerCase();
+}
+
+if (separator == "new") separator = "\n";
+if (separator == "other") separator = document.extractor.othersep.value;
+
+if (address_type == "web") {
+    rawemail = input.match(/([A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_%&\?\/.=]+)/gi);
+} else {
+    rawemail = input.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+}
+
+var norepeat = new Array();
+var filtermail = new Array();
+if (rawemail) {
+    if (string){
+        x = 0;
+        for (var y=0; y<rawemail.length; y++) {
+            if (document.extractor.filter_type.value == 1) {
+                if (rawemail[y].search(string) >= 0) {
+                    filtermail[x] = rawemail[y];
+                    x++;
+                }
+            } else {
+                if (rawemail[y].search(string) < 0) {
+                    filtermail[x] = rawemail[y];
+                    x++;
+                }
+            }
+        }
+        rawemail = filtermail;
+    }
+
+    for (var i=0; i<rawemail.length; i++) {
+        var repeat = 0;
+        
+        // Check for repeated emails routine
+        for (var j=i+1; j<rawemail.length; j++) {
+            if (rawemail[i] == rawemail[j]) {
+                repeat++;
+            }
+        }
+        
+        // Create new array for non-repeated emails
+        if (repeat == 0) {
+            norepeat[a] = rawemail[i];
+            a++;
+        }
+    }
+    if (document.extractor.sort.checked) norepeat = norepeat.sort(); // Sort the array
+    email = "";
+    // Join emails together with separator
+    for (var k = 0; k < norepeat.length; k++) {
+        if (ingroup != 0) email += separator;
+        email += norepeat[k];
+        ingroup++;
+        
+        // Group emails if a number is specified in form. Each group will be separate by new line.
+        if (groupby) {
+            if (ingroup == groupby) {
+                email += '\n\n';
+                ingroup = 0;
+            }
+        }
+    }
+}
+
+// Return array length
+var count = norepeat.length;
+
+// Print results
+document.extractor.count.value = count;
+document.extractor.output.value = email;
+}
+//  End -->
+</script>         
+    <style type="text/css" media="screen"> 
+        body {
+        background:#FFF;
+        }
+        body,td,th,ul,p {
+        font: normal normal normal 8pt Verdana;
+        color: #000;
+        }
+        textarea,input,select {
+        font: normal normal normal 8pt/1em Verdana;
+        color: #000;
+        background:#FFF;
+        }
+        a:link, a:visited {
+        text-decoration: none;
+        color: #059;
+        }
+        a:active, a:hover {
+        text-decoration: underline;
+        color: #D14;
+        }
+        fieldset {
+        padding-left: 10px; 
+        padding-bottom: 10px; 
+        border:1px solid #999;
+        }
+        legend {
+        font: normal normal bold 9pt Arial;
+        color: #333;
+        }
+        .bordercolor {
+        /* background:#eee; */
+        }
+        .maincolor {
+        background:#f9f9ff; 
+        border:1px solid #007;
+        }
+        .button {
+        background:#CCC;
+        }
+        .titlebarcolor {
+        background:cadetblue;
+        }
+        .titlefont {
+        font: normal normal bold 9pt/1em Arial;
+        color: #FFF;
+        text-decoration:none;
+        }
+        .copyrightfont, .copyrightfont a {
+        font: normal normal bold 9pt/1em Arial;
+        color: #FFF;
+        text-decoration:none;
+        }
+        #wrapper {
+        
+        margin:auto;
+        
+        justify-content: center;
+        text-align: center;
+        justify-content: center;
+        transform: translateX(30%);
+
+
+        }
+        #content {
+        width:600px;
+        padding:0 10px;
+        float:left;
+        /* border-right:1px solid #CCCCCC;
+        border-left:1px solid #CCCCCC; */
+        }
+        #left {
+        width:125px;
+        padding:0 10px 0 0;
+        float:left;
+        }
+        #right {
+        width:125px;
+        padding:0 0 0 10px;
+        float:left;
+        }
+        #left a, #right a {
+        display:block;
+        margin:5px 0;
+        }
+        #left a img, #right a img {
+        border:0;
+        }
+        .advertheader {
+        background-color:#BB301C;
+        padding:3px;
+        color:#FFFFFF;
+        font-weight:bold;
+        text-align:center;
+        }
+        #howtouse {
+        text-align:center;
+        margin:30px 0;
+        }
+        #howtouse h2 {
+        font-size:2.2em;
+        color:#669900;
+        }
+        #howtouse p {
+        font-size:1.2em;
+        font-weight:bold;
+        font-style:italic;
+        color:#669900;
+        }
+        .buttonAction input{
+            background-color:cornflowerblue;
+            border: none;
+            padding: 5px 20px;
+            border: 1px solid 
+        }
+</style>         
+    <link rel="shortcut icon" type="image/x-icon" href="http://eel.surf7.net.my/favicon.ico"> 
+
+</head>
+<body>
+     
+    <div id="wrapper"> 
+        <div id="left"> 
+</div>             
+        <div id="content"> 
+            
+            <br> 
+           
+            <form name="extractor" action="#" method="get"> 
+                <table class="maincolor" width="600" cellspacing="0" cellpadding="4" border="0" align="center"> 
+                    <tbody><tr class="titlebarcolor" valign="middle"> 
+                        <td class="titlefont" align="left"> 
+                    Email Extractor</td> 
+                        <td class="copyrightfont" align="right"> 
+                                                                                           
+                            Starhome
+                        </td>                             
+                    </tr>                         
+                    <tr class ="titleHeader"> 
+                        <td width="50%" valign="top" align="center"> 
+                            <strong>Input Window</strong>
+                            <br> 
+                            <textarea name="input" rows="8" cols="25" style="width:98%"></textarea>
+                        </td>                             
+                        <td width="50%" valign="top" align="center"> 
+                            <strong>Output Window</strong>
+                            <br> 
+                            <textarea name="output" rows="8" cols="25" style="width:98%" readonly="readonly"></textarea>
+                        </td>                             
+                    </tr>                         
+                    <tr> 
+                        <td valign="top" align="center"> 
+                            <script language="javascript" type="text/javascript">
+                    <!--
+                    if ((navigator.appName=="Microsoft Internet Explorer")&&(parseInt(navigator.appVersion)>=4)) document.write('<a href="#" onClick="paste();">Paste Input</a>');
+                    else document.write('Paste your input in above textarea');
+                    // -->
+                    </script>Paste your input in above textarea                                Letakan teks diatas
+                        </td>                             
+                        <td valign="top" align="center"> 
+                            <script language="javascript" type="text/javascript">
+                    <!--
+                    if ((navigator.appName=="Microsoft Internet Explorer")&&(parseInt(navigator.appVersion)>=4)) document.write('<a href="#" onClick="copy();">Copy Output</a>');
+                    else document.write('Your output will be displayed in above textarea');
+                    // -->
+                    </script>Your output will be displayed in above textarea                                Hasil nya ada disini
+                        </td>                             
+                    </tr>                         
+                    <tr> 
+                        <td colspan="2" style="border-bottom:1px solid #999999;" valign="top" align="left"> </td> 
+                    </tr>                         
+                    <tr> 
+                        <td valign="top" align="center" class="buttonAction"> 
+                            <br> 
+                            <input type="button" class="button" value="Extract" onclick="findEmail();"> 
+                            <input type="reset" class="button" value="Reset">&nbsp;&nbsp;&nbsp;
+                            <a href="#" onclick="help();"></a>
+                        </td>                             
+                        <td valign="top" nowrap="nowrap" align="right"> 
+                            <br> 
+                            No. of addresses detected: 
+                            <input name="count" size="5" readonly="readonly">
+                        </td>                             
+                    </tr>                         
+                    <tr> 
+                        <td colspan="2" valign="top" align="left"> 
+                            <fieldset title="Output Option"> 
+                                <legend align="left">
+                                    <strong>Output Option</strong>
+                                </legend>                                     
+                                <br> 
+                                Separator:
+                                <select name="sep"> 
+                                    <option value=", " selected="selected">Comma</option>                                         
+                                    <option value="|">Pipe</option>                                         
+                                    <option value=" : ">Colon</option>                                         
+                                    <option value="new">New Line</option>                                         
+                                    <option value="other">Other</option>                                         
+                                </select>                                     
+                                <input type="text" name="othersep" size="3" onblur="checksep(this.value);"> 
+                                &nbsp;
+                                <label for="sortbox">
+                                    <input type="checkbox" name="sort" id="sortbox">Rapikan berdasarkan abjad&nbsp;
+                                </label>                                     
+                                &nbsp;
+                                <label for="casebox">
+                                    <input type="checkbox" name="lowcase" id="casebox" checked="checked">Garis Bawah?
+                                
+                                </label>                                     
+                                <br>
+                                <br> 
+                                Group: 
+                                <input type="text" size="3" name="groupby" onblur="numonly(this.value);"> Addresses 
+                                <small>(groups di display di paragraf baru)</small> 
+                            </fieldset>                                 
+                            <br> 
+                            <fieldset title="Filter Option"> 
+                                <legend align="left">
+                                    <strong>Filter Option</strong>
+                                </legend>                                     
+                                <br> 
+                                <select name="filter_type"> 
+                                    <option value="1" selected="selected">Only</option>                                         
+                                    <option value="0">Do not</option>                                         
+                                </select>                                     
+                                extract address dari String tertentu : 
+                                <input type="text" size="20" name="string"> 
+                                <br> 
+                                <br>Jenis Alamat yang mau di ekstrak: 
+                                <select name="address_type"> 
+                                    <option value="email" selected="selected">Email</option>                                         
+                                    <option value="web">URL</option>                                         
+                                </select>
+                            </fieldset>                                 
+                        </td>                             
+                    </tr>                         
+                </tbody></table>                     
+            </form>                 
+            <!-- //// All we ask in return for this free tool is NOT to remove this link. Thank you. -->                 
+            <p align="c"><br></p> 
+            <p></p> 
+        </div>             
+        <div id="right"> 
+</div>             
+        <div style="clear:both"></div>             
+    </div>         
+    <script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2290307-14']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>         
+     
+
+
+</body>
+</html>
+
